@@ -47,3 +47,12 @@ body {
   top: -12px;
   font-size: 12px;
 }
+
+.table-flow {
+  overflow-y: scroll;
+  max-height: 90vh;
+}
+
+.btn-red {
+  color: red;
+}

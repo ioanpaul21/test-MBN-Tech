@@ -1,19 +1,117 @@
-const btnCompute = document.querySelector(".btn-compute");
+const btnCompute = document.getElementById("btn-compute");
+const result = document.getElementById("result");
+const resultBox = document.getElementById("result-box");
+const inputValues = document.getElementById("values");
+const btnReset = document.getElementById("btn-reset");
+const lengthField = document.getElementById("length");
+const weightField = document.getElementById("weigth");
+const turtlesTable = document.getElementById("table-turtles");
+let btnTrash;
 
-btnCompute.addEventListener("click", function compute(event) {
-  event.preventDefault();
+const tableHeaderOrder = ['id', 'turtleLength', 'weight', 'result', 'minWeigth', 'avgWeigth', 'maxWeigth'];
 
-  const length = document.querySelector(".ipt-length").value;
-  const weight = document.querySelector(".ipt-weight").value;
-  if (weight < length * 0.9) {
-    document.querySelector(".message").innerHTML = "Underweight";
-  } else if (length < weight + weight * 0.1) {
-    document.querySelector(".message").innerHTML = "Overweight";
-  } else if (weight >= length * 0.9 && length + length * 0.1 >= weight) {
-    document.querySelector(".message").innerHTML = "Optimal weight";
-  } else {
-    document.querySelector(".message").innerHTML = "something incorrect";
+const displayLocalStorage = function() {
+  let maxId = window.localStorage.getItem("turtlesMaxId");
+  for(let i = 1; i <= maxId; i++ ) {
+    const turtle = window.localStorage.getItem('turtle' + i);
+    if(turtle){
+      addRow(JSON.parse(turtle));
+    }
   }
-  console.log(length, weight);
-});
-console.log("kjghjd");
+};
+
+const calculateIndicators = function(turtleLength) {
+  return {
+    minWeigth: (turtleLength * 0.9).toFixed(3), 
+    maxWeigth: (turtleLength * 1.1).toFixed(3), 
+    avgWeigth: turtleLength.toFixed(3) 
+  }
+};
+
+ const computeAction = function (event) {
+  event.preventDefault();
+  btnCompute.disabled = true;
+  const turtleLength = Number(lengthField.value);
+  const weight = Number(weightField.value);
+  const indicators = calculateIndicators(turtleLength);
+  if(turtleLength <= 0 || weight <= 0) {
+    result.innerHTML = "Please insert positive numbers!"
+  } else if (weight < indicators.minWeigth) {
+    result.innerHTML = "Underweight";
+    result.classList.add('w3-text-red');
+  } else if (weight > indicators.maxWeigth) {
+    result.innerHTML = "Overweight";
+    result.classList.add('w3-text-red');
+  } else {
+    result.innerHTML = "Optimal weight";
+    result.classList.add('w3-text-green');
+  }
+  inputValues.innerHTML = turtleLength + " (cm) | " + weight + " (g)";
+  resultBox.classList.remove("w3-hide");
+
+  indicators.turtleLength = turtleLength;
+  indicators.weight = weight;
+  indicators.id = getLastTurtleId() + 1;
+  indicators.result = result.innerHTML;
+
+  if (turtleLength > 0 && weight > 0) {
+    addRow(indicators);
+    saveTurtle(indicators);
+  }
+};
+
+const getLastTurtleId = function () {
+  const id = window.localStorage.getItem('turtlesMaxId');
+  return Number(id);
+};
+
+const saveTurtle = function (turtleIndicators) {
+  window.localStorage.setItem("turtle" + turtleIndicators.id, JSON.stringify(turtleIndicators));
+  window.localStorage.setItem('turtlesMaxId', turtleIndicators.id);
+};
+
+const resetAction = function (event) {
+  event.preventDefault();
+  btnCompute.disabled = false;
+  lengthField.value = "";
+  weightField.value = "";
+  resultBox.classList.add("w3-hide");
+  result.classList.remove("w3-text-red", "w3-text-red");
+};
+
+const addRow = function(turtleIndicators) {
+  let newRow = turtlesTable.insertRow(-1);
+  newRow.id = "table-row-" + turtleIndicators.id;
+  tableHeaderOrder.map(column => {
+    let newCell = newRow.insertCell(tableHeaderOrder.indexOf(column));
+    if(column === "result"){
+      if(turtleIndicators.result === "Optimal weight"){
+        newCell.classList.add("w3-text-green");
+      } else {
+        newCell.classList.add("w3-text-red");
+      }
+    }
+    let newContent = document.createTextNode(turtleIndicators[column]);
+    newCell.appendChild(newContent);
+  });
+  let newCell = newRow.insertCell(turtleIndicators.length);
+  let newContent = document.createElement('i');
+  newContent.id = "turtle" + turtleIndicators.id;
+  newContent.classList.add("fa", "fa-trash", "w3-xlarge", "btn-red");
+  newCell.appendChild(newContent);
+};
+
+const removeRow = function (event) {
+  if(!(event.target && event.target.classList.contains("fa-trash") && event.target.classList.contains("btn-red"))) {
+    return;
+  }
+  const row = event.target.parentNode.parentNode;
+  row.parentNode.removeChild(row);
+  window.localStorage.removeItem(event.target.id);
+};
+
+document.addEventListener('click', removeRow);
+btnCompute.addEventListener("click", computeAction);
+btnReset.addEventListener("click", resetAction); 
+
+displayLocalStorage();

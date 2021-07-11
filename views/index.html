@@ -2,9 +2,9 @@
 <html>
   <title>Hibernation Calculator</title>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
   <link rel="stylesheet" href="../public/css/style.css" />
   <link
     rel="stylesheet"
@@ -37,17 +37,17 @@
             <div class="w3-header w3-block w3-padding w3-blue">
               <h4 class="w3-center">EMYS ORBICULARIS HIBERNATION CALCULATOR</h4>
             </div>
-            <form class="w3-margin-top">
+            <form class="w3-margin-top ">
               <div class="input-container">
-                <input type="text" required="" />
+                <input id="length" class="w3-text-black" type="number" step="any" required="" />
                 <label>Shell length <em>(cm)</em></label>
               </div>
               <div class="input-container">
-                <input type="mail" required="" />
+                <input id="weigth" class="w3-text-black" type="number" step="any" required=""/>
                 <label>Weigth before hibernation <em>(g)</em></label>
               </div>
               <button
-                type="button"
+                id="btn-compute"
                 class="
                   w3-margin
                   w3-padding
@@ -61,18 +61,20 @@
                 COMPUTE
               </button>
             </form>
-            <div class="w3-container w3-white" style="height: 40vh"></div>
+            <div id="result-box" class="w3-padding w3-container w3-hide w3-white" >
+              <p id="values" class="w3-center"></p>
+              <h1 id="result" class="w3-center"></h1>
+                <button id="btn-reset" class=" w3-button w3-margin-bottom w3-border w3-border-blue w3-center w3-block" >RESET</button>
+            </div>
           </div>
         </div>
 
-        <!--Second left div -->
-
         <!-- Right Column -->
         <div class="w3-twothird">
-          <div class="w3-container w3-center w3-card w3-white w3-margin-bottom">
-            <h3>Your computed results will apear here</h3>
+          <div class="w3-container w3-center w3-white w3-card w3-padding table-flow">
+            <h3>Your computed results will apear here!</h3>
             <hr />
-            <table class="w3-table w3-striped">
+            <table id="table-turtles" class="w3-table w3-striped w3-mobile" >
               <tr>
                 <th>#</th>
                 <th>Length</th>
@@ -80,22 +82,10 @@
                 <th>Result</th>
                 <th>Min (g)</th>
                 <th>Avg (g)</th>
-                <th>Max(g)</th>
+                <th>Max (g)</th>
                 <th>
-                  <img src="../public/images/delete-button-svgrepo-com.svg" />
+                  <a><i class="fa fa-trash w3-xlarge" ></i></a>
                 </th>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>10</td>
-                <td>80</td>
-                <td>Overweigth</td>
-                <td>7.4534</td>
-                <td>8.46w</td>
-                <td>9.4345</td>
-                <td>
-                  <img src="../public/images/delete-button-svgrepo-com.svg" />
-                </td>
               </tr>
             </table>
           </div>
@@ -107,6 +97,7 @@
       </div>
 
       <!-- End Page Container -->
-    </div>
+    </div>\
+    <script src="../public/js/script.js"></script>
   </body>
 </html>
