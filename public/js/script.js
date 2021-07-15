@@ -107,7 +107,7 @@ const addRow = function (turtleIndicators) {
   let newCell = newRow.insertCell(turtleIndicators.length);
   let newContent = document.createElement("i");
   newContent.id = "turtle" + turtleIndicators.id;
-  newContent.classList.add("bi", "bi-trash", "btn-red");
+  newContent.classList.add("bi", "bi-trash", "btn-outline-danger");
   newCell.appendChild(newContent);
 };
 
@@ -116,7 +116,7 @@ const removeRow = function (event) {
     !(
       event.target &&
       event.target.classList.contains("bi-trash") &&
-      event.target.classList.contains("btn-red")
+      event.target.classList.contains("btn-outline-danger")
     )
   ) {
     return;
