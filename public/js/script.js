@@ -6,48 +6,55 @@ const btnReset = document.getElementById("btn-reset");
 const lengthField = document.getElementById("length");
 const weightField = document.getElementById("weigth");
 const turtlesTable = document.getElementById("table-turtles");
-let btnTrash;
 
-const tableHeaderOrder = ['id', 'turtleLength', 'weight', 'result', 'minWeigth', 'avgWeigth', 'maxWeigth'];
+const tableHeaderOrder = [
+  "id",
+  "turtleLength",
+  "weight",
+  "result",
+  "minWeigth",
+  "avgWeigth",
+  "maxWeigth",
+];
 
-const displayLocalStorage = function() {
+const displayLocalStorage = function () {
   let maxId = window.localStorage.getItem("turtlesMaxId");
-  for(let i = 1; i <= maxId; i++ ) {
-    const turtle = window.localStorage.getItem('turtle' + i);
-    if(turtle){
+  for (let i = 1; i <= maxId; i++) {
+    const turtle = window.localStorage.getItem("turtle" + i);
+    if (turtle) {
       addRow(JSON.parse(turtle));
     }
   }
 };
 
-const calculateIndicators = function(turtleLength) {
+const calculateIndicators = function (turtleLength) {
   return {
-    minWeigth: (turtleLength * 0.9).toFixed(3), 
-    maxWeigth: (turtleLength * 1.1).toFixed(3), 
-    avgWeigth: turtleLength.toFixed(3) 
-  }
+    minWeigth: (turtleLength * 0.9).toFixed(3),
+    maxWeigth: (turtleLength * 1.1).toFixed(3),
+    avgWeigth: turtleLength.toFixed(3),
+  };
 };
 
- const computeAction = function (event) {
+const computeAction = function (event) {
   event.preventDefault();
   btnCompute.disabled = true;
   const turtleLength = Number(lengthField.value);
   const weight = Number(weightField.value);
   const indicators = calculateIndicators(turtleLength);
-  if(turtleLength <= 0 || weight <= 0) {
-    result.innerHTML = "Please insert positive numbers!"
+  if (turtleLength <= 0 || weight <= 0) {
+    result.innerHTML = "Please insert positive numbers!";
   } else if (weight < indicators.minWeigth) {
     result.innerHTML = "Underweight";
-    result.classList.add('w3-text-red');
+    result.classList.add("text-danger");
   } else if (weight > indicators.maxWeigth) {
     result.innerHTML = "Overweight";
-    result.classList.add('w3-text-red');
+    result.classList.add("text-danger");
   } else {
     result.innerHTML = "Optimal weight";
-    result.classList.add('w3-text-green');
+    result.classList.add("text-success");
   }
   inputValues.innerHTML = turtleLength + " (cm) | " + weight + " (g)";
-  resultBox.classList.remove("w3-hide");
+  resultBox.classList.remove("invisible");
 
   indicators.turtleLength = turtleLength;
   indicators.weight = weight;
@@ -61,13 +68,16 @@ const calculateIndicators = function(turtleLength) {
 };
 
 const getLastTurtleId = function () {
-  const id = window.localStorage.getItem('turtlesMaxId');
+  const id = window.localStorage.getItem("turtlesMaxId");
   return Number(id);
 };
 
 const saveTurtle = function (turtleIndicators) {
-  window.localStorage.setItem("turtle" + turtleIndicators.id, JSON.stringify(turtleIndicators));
-  window.localStorage.setItem('turtlesMaxId', turtleIndicators.id);
+  window.localStorage.setItem(
+    "turtle" + turtleIndicators.id,
+    JSON.stringify(turtleIndicators)
+  );
+  window.localStorage.setItem("turtlesMaxId", turtleIndicators.id);
 };
 
 const resetAction = function (event) {
@@ -75,34 +85,40 @@ const resetAction = function (event) {
   btnCompute.disabled = false;
   lengthField.value = "";
   weightField.value = "";
-  resultBox.classList.add("w3-hide");
-  result.classList.remove("w3-text-red", "w3-text-red");
+  resultBox.classList.add("invisible");
+  result.classList.remove("text-danger", "text-success");
 };
 
-const addRow = function(turtleIndicators) {
+const addRow = function (turtleIndicators) {
   let newRow = turtlesTable.insertRow(-1);
   newRow.id = "table-row-" + turtleIndicators.id;
-  tableHeaderOrder.map(column => {
+  tableHeaderOrder.map((column) => {
     let newCell = newRow.insertCell(tableHeaderOrder.indexOf(column));
-    if(column === "result"){
-      if(turtleIndicators.result === "Optimal weight"){
-        newCell.classList.add("w3-text-green");
+    if (column === "result") {
+      if (turtleIndicators.result === "Optimal weight") {
+        newCell.classList.add("text-success");
       } else {
-        newCell.classList.add("w3-text-red");
+        newCell.classList.add("text-danger");
       }
     }
     let newContent = document.createTextNode(turtleIndicators[column]);
     newCell.appendChild(newContent);
   });
   let newCell = newRow.insertCell(turtleIndicators.length);
-  let newContent = document.createElement('i');
+  let newContent = document.createElement("i");
   newContent.id = "turtle" + turtleIndicators.id;
-  newContent.classList.add("fa", "fa-trash", "w3-xlarge", "btn-red");
+  newContent.classList.add("bi", "bi-trash", "btn-red");
   newCell.appendChild(newContent);
 };
 
 const removeRow = function (event) {
-  if(!(event.target && event.target.classList.contains("fa-trash") && event.target.classList.contains("btn-red"))) {
+  if (
+    !(
+      event.target &&
+      event.target.classList.contains("bi-trash") &&
+      event.target.classList.contains("btn-red")
+    )
+  ) {
     return;
   }
   const row = event.target.parentNode.parentNode;
@@ -110,8 +126,8 @@ const removeRow = function (event) {
   window.localStorage.removeItem(event.target.id);
 };
 
-document.addEventListener('click', removeRow);
+document.addEventListener("click", removeRow);
 btnCompute.addEventListener("click", computeAction);
-btnReset.addEventListener("click", resetAction); 
+btnReset.addEventListener("click", resetAction);
 
 displayLocalStorage();

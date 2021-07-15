@@ -1,81 +1,82 @@
 <!DOCTYPE html>
-<html>
-  <title>Hibernation Calculator</title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
-  <link rel="stylesheet" href="../public/css/style.css" />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Roboto"
-  />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-  />
-  <style>
-    html,
-    body,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      font-family: "Roboto", sans-serif;
-    }
-  </style>
-  <body class="w3-light-grey">
-    <!-- Page Container -->
-    <div class="w3-content w3-margin-top" style="max-width: 1400px">
-      <!-- The Grid -->
-      <div class="w3-row-padding">
-        <!-- Left Column -->
-        <div class="w3-third">
-          <div class="w3-container w3-card w3-white w3-margin-bottom">
-            <div class="w3-header w3-block w3-padding w3-blue">
-              <h4 class="w3-center">EMYS ORBICULARIS HIBERNATION CALCULATOR</h4>
-            </div>
-            <form class="w3-margin-top ">
-              <div class="input-container">
-                <input id="length" class="w3-text-black" type="number" step="any" required="" />
-                <label>Shell length <em>(cm)</em></label>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="../public/css/style.css" />
+
+    <title>Hibernation Calculator</title>
+  </head>
+  <body class="bg-light">
+    <div class="row justify-content-center bg-white">
+      <div class="row justify-content-center">
+        <div class="col-lg-4 border mx-2 my-3 shadow rounded">
+          <div class="p-3 my-3 bg-light">
+            <img
+              src="../public/images/Turtle-595b40b65ba036ed117d2678.svg"
+              class="rounded float-start h-25 w-25"
+            />
+            <h4 class="text-black text-center">
+              EMYS ORBICULARIS HIBERNATION CALCULATOR
+            </h4>
+          </div>
+
+          <div class="container rounded-3">
+            <form class="form-group mx-3 p-3 my-3">
+              <div class="input-group mb-3">
+                <input
+                  id="length"
+                  class="d-block form-control"
+                  type="number"
+                  step="any"
+                  required=""
+                  placeholder="Shell length (cm)"
+                />
               </div>
-              <div class="input-container">
-                <input id="weigth" class="w3-text-black" type="number" step="any" required=""/>
-                <label>Weigth before hibernation <em>(g)</em></label>
+              <div class="input-group mb-3">
+                <input
+                  id="weigth"
+                  class="d-bock form-control"
+                  type="number"
+                  step="any"
+                  required=""
+                  placeholder="Weigth before hibernation (g)"
+                />
               </div>
-              <button
-                id="btn-compute"
-                class="
-                  w3-margin
-                  w3-padding
-                  w3-button
-                  w3-white
-                  w3-border
-                  w3-border-blue
-                  w3-round-large
-                "
-              >
-                COMPUTE
-              </button>
+              <button id="btn-compute" class="btn btn-dark m-2">COMPUTE</button>
             </form>
-            <div id="result-box" class="w3-padding w3-container w3-hide w3-white" >
-              <p id="values" class="w3-center"></p>
-              <h1 id="result" class="w3-center"></h1>
-                <button id="btn-reset" class=" w3-button w3-margin-bottom w3-border w3-border-blue w3-center w3-block" >RESET</button>
+            <div id="result-box" class="container d-grid gap-2 invisible">
+              <p id="values" class="text-center"></p>
+              <h1 id="result" class="text-center"></h1>
+              <button id="btn-reset" class="btn btn-outline-dark m-2">
+                RESET
+              </button>
             </div>
           </div>
         </div>
-
-        <!-- Right Column -->
-        <div class="w3-twothird">
-          <div class="w3-container w3-center w3-white w3-card w3-padding table-flow">
-            <h3>Your computed results will apear here!</h3>
-            <hr />
-            <table id="table-turtles" class="w3-table w3-striped w3-mobile" >
-              <tr>
+        <div class="col-lg-7 border mx-2 my-3 shadow rounded">
+          <div class="container mx-3 p-3 my-3">
+            <h3 class="text-center">Your computed results will apear here!</h3>
+          </div>
+          <div class="container table-flow">
+            <table
+              id="table-turtles"
+              class="table table-hover text-center table-striped p-1 my-3"
+            >
+              <tr class="table-dark">
                 <th>#</th>
                 <th>Length</th>
                 <th>Weigth</th>
@@ -84,20 +85,14 @@
                 <th>Avg (g)</th>
                 <th>Max (g)</th>
                 <th>
-                  <a><i class="fa fa-trash w3-xlarge" ></i></a>
+                  <i class="bi bi-trash"></i>
                 </th>
               </tr>
             </table>
           </div>
-
-          <!-- End Right Column -->
         </div>
-
-        <!-- End Grid -->
       </div>
-
-      <!-- End Page Container -->
-    </div>\
+    </div>
     <script src="../public/js/script.js"></script>
   </body>
 </html>
